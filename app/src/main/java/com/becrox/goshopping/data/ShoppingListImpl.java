@@ -54,15 +54,13 @@ public class ShoppingListImpl implements IShoppingList {
      */
     @Override
     public Observable<Boolean> deleteList(List list) {
-        return Observable.create(e -> {
-            mDatabase.child(COLLECTION)
-                    .child(list.getId())
-                    .removeValue()
-                    .addOnCompleteListener(task -> {
-                        e.onNext(task.isSuccessful());
-                        e.onComplete();
-                    });
-        });
+        return Observable.create(e -> mDatabase.child(COLLECTION)
+                .child(list.getId())
+                .removeValue()
+                .addOnCompleteListener(task -> {
+                    e.onNext(task.isSuccessful());
+                    e.onComplete();
+                }));
     }
 
     /**
