@@ -1,3 +1,4 @@
 <resources>
-  <string name="app_name">Go Shopping!</string>
+    <string name="app_name">Go Shopping!</string>
+    <string name="title_activity_add_list">AddListActivity</string>
 </resources>

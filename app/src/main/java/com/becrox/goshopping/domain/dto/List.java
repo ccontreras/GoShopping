@@ -1,4 +1,4 @@
-package com.becrox.goshopping;
+package com.becrox.goshopping.domain.dto;
 
 /**
  * @author cconTreras

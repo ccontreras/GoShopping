@@ -1,4 +1,6 @@
-package com.becrox.goshopping;
+package com.becrox.goshopping.domain;
+
+import com.becrox.goshopping.domain.dto.List;
 
 import org.junit.Before;
 import org.junit.Test;

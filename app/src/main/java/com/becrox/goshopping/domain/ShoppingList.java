@@ -1,4 +1,6 @@
-package com.becrox.goshopping;
+package com.becrox.goshopping.domain;
+
+import com.becrox.goshopping.domain.dto.List;
 
 import io.reactivex.Observable;
 
@@ -6,7 +8,7 @@ import io.reactivex.Observable;
  * @author cconTreras
  */
 
-interface ShoppingList {
+public interface ShoppingList {
 
     /**
      * Creates a new list.
