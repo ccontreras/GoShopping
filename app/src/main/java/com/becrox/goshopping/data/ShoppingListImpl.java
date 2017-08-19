@@ -1,27 +1,32 @@
 package com.becrox.goshopping.data;
 
+import com.becrox.goshopping.domain.IShoppingList;
 import com.becrox.goshopping.domain.dto.List;
-import com.becrox.goshopping.domain.ShoppingList;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import io.reactivex.Observable;
 
 /**
- * The {@link ShoppingList} implementation class.
+ * The {@link IShoppingList} implementation class.
  *
  * @author cconTreras
  */
 
-public class ShoppingListImpl implements ShoppingList {
+@Singleton
+public class ShoppingListImpl implements IShoppingList {
     /* The name of the collection list in the database. */
     private static final String COLLECTION = "lists";
 
     /* A reference to the root database. */
     private DatabaseReference mDatabase;
 
+    @Inject
     public ShoppingListImpl(DatabaseReference reference) {
         mDatabase = reference;
     }

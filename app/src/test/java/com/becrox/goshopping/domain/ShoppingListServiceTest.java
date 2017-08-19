@@ -20,25 +20,25 @@ import static org.mockito.Mockito.when;
  * @author cconTreras
  */
 
-public class ShoppingListManagerTest {
+public class ShoppingListServiceTest {
 
-    private ShoppingListManager mShoppingListManager;
+    private ShoppingListService mShoppingListService;
 
     @Mock
-    ShoppingList mShoppingList;
+    IShoppingList mShoppingList;
 
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        mShoppingListManager = new ShoppingListManager(mShoppingList);
+        mShoppingListService = new ShoppingListService(mShoppingList);
     }
 
     /**
-     * Test that {@link #mShoppingListManager} has been initialized correctly.
+     * Test that {@link #mShoppingListService} has been initialized correctly.
      */
     @Test
     public void should_shoppingListManager_beInitialized() {
-        assertThat(mShoppingListManager, is(notNullValue()));
+        assertThat(mShoppingListService, is(notNullValue()));
     }
 
     /**
@@ -51,7 +51,7 @@ public class ShoppingListManagerTest {
         when(mShoppingList.createList(newList)).thenReturn(Observable.just(true));
 
         TestObserver<Boolean> testObserver = new TestObserver<>();
-        mShoppingListManager.createNewList(newList).subscribe(testObserver);
+        mShoppingListService.createNewList(newList).subscribe(testObserver);
 
         verify(mShoppingList).createList(newList);
         testObserver.assertSubscribed();
@@ -66,7 +66,7 @@ public class ShoppingListManagerTest {
         when(mShoppingList.createList(newList)).thenReturn(Observable.just(false));
 
         TestObserver<Boolean> testObserver = new TestObserver<>();
-        mShoppingListManager.createNewList(newList).subscribe(testObserver);
+        mShoppingListService.createNewList(newList).subscribe(testObserver);
 
         verify(mShoppingList).createList(newList);
         testObserver.assertSubscribed();
@@ -84,7 +84,7 @@ public class ShoppingListManagerTest {
         when(mShoppingList.deleteList(list)).thenReturn(Observable.just(true));
 
         TestObserver<Boolean> testObserver = new TestObserver<>();
-        mShoppingListManager.deleteList(list).subscribe(testObserver);
+        mShoppingListService.deleteList(list).subscribe(testObserver);
 
         verify(mShoppingList).deleteList(list);
         testObserver.assertSubscribed();
@@ -99,7 +99,7 @@ public class ShoppingListManagerTest {
         when(mShoppingList.deleteList(list)).thenReturn(Observable.just(false));
 
         TestObserver<Boolean> testObserver = new TestObserver<>();
-        mShoppingListManager.deleteList(list).subscribe(testObserver);
+        mShoppingListService.deleteList(list).subscribe(testObserver);
 
         verify(mShoppingList).deleteList(list);
         testObserver.assertSubscribed();
@@ -112,12 +112,12 @@ public class ShoppingListManagerTest {
         String id = "abc123";
         String title = "hello world!";
         List list = new List.Builder().withId(id).withTitle(title).build();
-        ShoppingList.ListResult expected = new ShoppingList.ListResult(list);
+        IShoppingList.ListResult expected = new IShoppingList.ListResult(list);
 
         when(mShoppingList.findById(id)).thenReturn(Observable.just(expected));
 
-        TestObserver<ShoppingList.ListResult> testObserver = new TestObserver<>();
-        mShoppingListManager.findById(id).subscribe(testObserver);
+        TestObserver<IShoppingList.ListResult> testObserver = new TestObserver<>();
+        mShoppingListService.findById(id).subscribe(testObserver);
 
         verify(mShoppingList).findById(id);
         testObserver.assertSubscribed();

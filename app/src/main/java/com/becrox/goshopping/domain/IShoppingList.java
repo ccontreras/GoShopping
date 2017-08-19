@@ -8,7 +8,7 @@ import io.reactivex.Observable;
  * @author cconTreras
  */
 
-public interface ShoppingList {
+public interface IShoppingList {
 
     /**
      * Creates a new list.

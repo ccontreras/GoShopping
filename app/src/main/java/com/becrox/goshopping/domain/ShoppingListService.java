@@ -8,10 +8,10 @@ import io.reactivex.Observable;
  * @author cconTreras
  */
 
-public class ShoppingListManager {
-    private ShoppingList mShoppingList;
+public class ShoppingListService {
+    private IShoppingList mShoppingList;
 
-    public ShoppingListManager(ShoppingList shoppingList) {
+    public ShoppingListService(IShoppingList shoppingList) {
         mShoppingList = shoppingList;
     }
 
@@ -23,7 +23,7 @@ public class ShoppingListManager {
         return mShoppingList.deleteList(list);
     }
 
-    public Observable<ShoppingList.ListResult> findById(String id) {
+    public Observable<IShoppingList.ListResult> findById(String id) {
         return mShoppingList.findById(id);
     }
 }
