@@ -9,7 +9,5 @@ import javax.inject.Scope;
  * @author Cesar on 18/8/17.
  */
 
-@Scope
-@Retention(RetentionPolicy.RUNTIME)
-public @interface AppContext {
+@Scope @Retention(RetentionPolicy.RUNTIME) public @interface AppContext {
 }
