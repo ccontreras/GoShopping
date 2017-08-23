@@ -3,6 +3,7 @@ package com.becrox.goshopping.presentation.addeditlist;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,8 +14,10 @@ import com.becrox.goshopping.R;
 import com.becrox.goshopping.dto.ShoppingList;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import dagger.android.AndroidInjection;
+import dagger.android.AndroidInjector;
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.support.HasSupportFragmentInjector;
 import javax.inject.Inject;
 
 /**
@@ -22,11 +25,12 @@ import javax.inject.Inject;
  *
  * @author cconTreras
  */
-public class AddListActivity extends AppCompatActivity {
-
-  @Inject FirebaseDatabase mFirebaseDatabase;
+public class ShoppingListActivity extends AppCompatActivity implements HasSupportFragmentInjector {
 
   FirebaseRecyclerAdapter<ShoppingList, ShoppingListHolder> mFirebaseRecyclerAdapter;
+
+  @Inject DispatchingAndroidInjector<Fragment> mFragmentDispatchingAndroidInjector;
+  @Inject DatabaseReference mRef;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     AndroidInjection.inject(this);
@@ -35,11 +39,9 @@ public class AddListActivity extends AppCompatActivity {
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
 
-    DatabaseReference ref = mFirebaseDatabase.getReference().child("shopping-lists");
-
     mFirebaseRecyclerAdapter =
         new FirebaseRecyclerAdapter<ShoppingList, ShoppingListHolder>(ShoppingList.class,
-            R.layout.shopping_list_item, ShoppingListHolder.class, ref) {
+            R.layout.shopping_list_item, ShoppingListHolder.class, mRef) {
           @Override
           protected void populateViewHolder(ShoppingListHolder viewHolder, ShoppingList model,
               int position) {
@@ -62,6 +64,10 @@ public class AddListActivity extends AppCompatActivity {
   @Override protected void onDestroy() {
     super.onDestroy();
     mFirebaseRecyclerAdapter.cleanup();
+  }
+
+  @Override public AndroidInjector<Fragment> supportFragmentInjector() {
+    return mFragmentDispatchingAndroidInjector;
   }
 
   static class ShoppingListHolder extends RecyclerView.ViewHolder {

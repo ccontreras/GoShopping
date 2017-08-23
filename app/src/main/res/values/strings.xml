@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Go Shopping!</string>
     <string name="title_activity_add_list">AddListActivity</string>
+  <string name="shopping_list_title_hint">Type the title here.</string>
 </resources>
