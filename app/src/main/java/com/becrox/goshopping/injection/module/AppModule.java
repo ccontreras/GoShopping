@@ -18,5 +18,5 @@ import dagger.android.ContributesAndroidInjector;
   @Binds @AppContext abstract Context bindContext(GoShoppingApp app);
 
   @PerActivity @ContributesAndroidInjector
-  abstract AddListActivity contributeYourActivityInjector();
+  abstract AddListActivity contributeAddListActivityInjector();
 }
