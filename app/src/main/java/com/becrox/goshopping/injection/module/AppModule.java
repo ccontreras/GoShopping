@@ -4,7 +4,7 @@ import android.content.Context;
 import com.becrox.goshopping.GoShoppingApp;
 import com.becrox.goshopping.injection.scope.AppContext;
 import com.becrox.goshopping.injection.scope.PerActivity;
-import com.becrox.goshopping.presentation.addeditlist.ShoppingListActivity;
+import com.becrox.goshopping.ui.addeditlist.ShoppingListActivity;
 import dagger.Binds;
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;

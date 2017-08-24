@@ -11,7 +11,7 @@
       android:supportsRtl="true"
       android:theme="@style/AppTheme">
     <activity
-        android:name=".presentation.addeditlist.ShoppingListActivity"
+        android:name=".ui.addeditlist.ShoppingListActivity"
         android:label="@string/title_activity_add_list"
         android:theme="@style/AppTheme.NoActionBar">
       <intent-filter>

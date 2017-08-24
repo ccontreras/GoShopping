@@ -7,7 +7,7 @@
   <data>
     <variable
         name="vm"
-        type="com.becrox.goshopping.presentation.addeditlist.CreateListVM"
+        type="com.becrox.goshopping.ui.addeditlist.CreateListViewModel"
         />
   </data>
 
@@ -48,7 +48,7 @@
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
         android:layout_weight="1"
-        android:onClick="@{() -> vm.createShoppingListSubject()}"
+        android:onClick="@{() -> vm.createShoppingList()}"
         android:text="@android:string/ok"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
