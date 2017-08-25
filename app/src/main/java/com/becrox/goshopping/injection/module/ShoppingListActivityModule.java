@@ -18,7 +18,7 @@ import dagger.android.ContributesAndroidInjector;
 
   @Provides @PerActivity static DatabaseReference provideDatabaseReference() {
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-    return database.getReference(Global.SHOPPING_LIST_COLLECTION);
+    return database.getReference().child(Global.SHOPPING_LIST_COLLECTION);
   }
 
   @PerFragment @ContributesAndroidInjector

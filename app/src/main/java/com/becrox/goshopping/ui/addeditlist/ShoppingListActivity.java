@@ -6,6 +6,8 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import com.becrox.goshopping.R;
@@ -20,6 +22,7 @@ import dagger.android.AndroidInjection;
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
+import io.reactivex.functions.Consumer;
 import javax.inject.Inject;
 
 /**
@@ -72,15 +75,30 @@ public class ShoppingListActivity extends AppCompatActivity implements HasSuppor
     });
 
     // Add an OnClickListener in order to show the create dialog.
-    binding.fab.setOnClickListener(view -> {
-      CreateListDialog dialog = new CreateListDialog();
-      dialog.show(getSupportFragmentManager(), "create_dialog");
-    });
+    binding.fab.setOnClickListener(view -> CreateListDialog.newInstance()
+        .show(getSupportFragmentManager(), "create_list_dialog"));
   }
 
   @Override protected void onDestroy() {
     super.onDestroy();
     mAdapter.cleanup();
+  }
+
+  @Override public boolean onCreateOptionsMenu(Menu menu) {
+    getMenuInflater().inflate(R.menu.shopping_list_menu, menu);
+    return super.onCreateOptionsMenu(menu);
+  }
+
+  @Override public boolean onOptionsItemSelected(MenuItem item) {
+    switch (item.getItemId()) {
+      case R.id.action_remove_all:
+        mViewModel.removeAll().subscribe(success -> {
+          // TODO: 25/8/2017  
+        });
+        return true;
+      default:
+        return super.onOptionsItemSelected(item);
+    }
   }
 
   @Override public AndroidInjector<Fragment> supportFragmentInjector() {

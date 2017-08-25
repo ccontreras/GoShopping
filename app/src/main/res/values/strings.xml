@@ -3,4 +3,5 @@
     <string name="title_activity_add_list">AddListActivity</string>
   <string name="shopping_list_title_hint">Type the title here.</string>
   <string name="empty_message">There is no list created yet</string>
+  <string name="remove_all">Remove all</string>
 </resources>

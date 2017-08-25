@@ -15,7 +15,7 @@ import javax.inject.Inject;
 
 public class CreateListViewModel {
 
-  private final ObservableField<String> title = new ObservableField<>();
+  public final ObservableField<String> title = new ObservableField<>("");
 
   private DatabaseReference mRef;
   private PublishSubject<Boolean> mSubject = PublishSubject.create();
@@ -26,14 +26,6 @@ public class CreateListViewModel {
 
   public Disposable onShoppingListCreate(Consumer<Boolean> consumer) {
     return mSubject.subscribe(consumer);
-  }
-
-  public void setTitle(String title) {
-    this.title.set(title);
-  }
-
-  public String getTitle() {
-    return title.get();
   }
 
   public void createShoppingList() {
