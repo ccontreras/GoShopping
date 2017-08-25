@@ -93,7 +93,7 @@ public class ShoppingListActivity extends AppCompatActivity implements HasSuppor
     switch (item.getItemId()) {
       case R.id.action_remove_all:
         mViewModel.removeAll().subscribe(success -> {
-          // TODO: 25/8/2017  
+          // TODO: 25/8/2017
         });
         return true;
       default:
