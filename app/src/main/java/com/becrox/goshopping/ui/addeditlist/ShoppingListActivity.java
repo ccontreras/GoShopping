@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 import com.becrox.goshopping.R;
 import com.becrox.goshopping.databinding.ActivityAddListBinding;
 import com.becrox.goshopping.dto.ShoppingList;
@@ -22,7 +23,6 @@ import dagger.android.AndroidInjection;
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
-import io.reactivex.functions.Consumer;
 import javax.inject.Inject;
 
 /**
@@ -65,7 +65,9 @@ public class ShoppingListActivity extends AppCompatActivity implements HasSuppor
     mRef.addListenerForSingleValueEvent(new ValueEventListener() {
       @Override public void onDataChange(DataSnapshot dataSnapshot) {
         if (!dataSnapshot.hasChildren()) {
-          mViewModel.setEmpty(true);
+          mViewModel.showEmptyView();
+        } else {
+          mViewModel.hideEmptyView();
         }
       }
 
@@ -93,7 +95,9 @@ public class ShoppingListActivity extends AppCompatActivity implements HasSuppor
     switch (item.getItemId()) {
       case R.id.action_remove_all:
         mViewModel.removeAll().subscribe(success -> {
-          // TODO: 25/8/2017
+          if (success) {
+            Toast.makeText(this, "Success!", Toast.LENGTH_SHORT).show();
+          }
         });
         return true;
       default:

@@ -49,10 +49,9 @@ public class CreateListDialog extends DialogFragment {
 
   @Override public void onResume() {
     super.onResume();
-    mDisposable = mViewModel.onShoppingListCreate(isSuccessful -> {
+    mDisposable = mViewModel.subject.subscribe(isSuccessful -> {
       if (isSuccessful) {
         dismiss();
-        return;
       }
     });
   }
