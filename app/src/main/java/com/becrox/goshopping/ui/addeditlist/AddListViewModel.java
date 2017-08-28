@@ -9,12 +9,12 @@ import io.reactivex.subjects.Subject;
 import javax.inject.Inject;
 
 /**
- * This is the view-model for {@link CreateListDialog}.
+ * This is the view-model for {@link AddListDialog}.
  *
  * @author cconTreras
  */
 
-public class CreateListViewModel {
+public class AddListViewModel {
 
   /**
    * Field that exposes the shopping's list title.
@@ -32,7 +32,7 @@ public class CreateListViewModel {
    */
   public final Subject<Boolean> subject = PublishSubject.create();
 
-  @Inject public CreateListViewModel(DatabaseReference ref) {
+  @Inject public AddListViewModel(DatabaseReference ref) {
     mRef = ref;
   }
 

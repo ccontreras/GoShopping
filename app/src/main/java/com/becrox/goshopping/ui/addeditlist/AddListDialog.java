@@ -9,7 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.becrox.goshopping.R;
-import com.becrox.goshopping.databinding.CreateListDialogBinding;
+import com.becrox.goshopping.databinding.AddListDialogBinding;
 import dagger.android.support.AndroidSupportInjection;
 import io.reactivex.disposables.Disposable;
 import javax.inject.Inject;
@@ -18,18 +18,18 @@ import javax.inject.Inject;
  * @author cconTreras
  */
 
-public class CreateListDialog extends DialogFragment {
+public class AddListDialog extends DialogFragment {
 
-  @Inject CreateListViewModel mViewModel;
+  @Inject AddListViewModel mViewModel;
 
-  private CreateListDialogBinding mBinding;
+  private AddListDialogBinding mBinding;
   private Disposable mDisposable;
 
-  public CreateListDialog() {
+  public AddListDialog() {
   }
 
-  public static CreateListDialog newInstance() {
-    return new CreateListDialog();
+  public static AddListDialog newInstance() {
+    return new AddListDialog();
   }
 
   @Override public void onAttach(Context context) {
@@ -40,9 +40,8 @@ public class CreateListDialog extends DialogFragment {
   @Nullable @Override
   public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
       @Nullable Bundle savedInstanceState) {
-    mBinding =
-        DataBindingUtil.inflate(LayoutInflater.from(getActivity()), R.layout.create_list_dialog,
-            container, false);
+    mBinding = DataBindingUtil.inflate(LayoutInflater.from(getActivity()), R.layout.add_list_dialog,
+        container, false);
     mBinding.setVm(mViewModel);
     return mBinding.getRoot();
   }

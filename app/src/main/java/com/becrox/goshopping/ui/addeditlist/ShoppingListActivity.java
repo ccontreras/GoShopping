@@ -77,7 +77,7 @@ public class ShoppingListActivity extends AppCompatActivity implements HasSuppor
     });
 
     // Add an OnClickListener in order to show the create dialog.
-    binding.fab.setOnClickListener(view -> CreateListDialog.newInstance()
+    binding.fab.setOnClickListener(view -> AddListDialog.newInstance()
         .show(getSupportFragmentManager(), "create_list_dialog"));
   }
 
