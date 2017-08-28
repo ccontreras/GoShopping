@@ -39,7 +39,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="8dp"
-        android:visibility="@{vm.shouldShowEmptyView() ? View.VISIBLE : View.GONE}"
+        android:visibility="@{vm.showEmptyView ? View.VISIBLE : View.GONE}"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         >
 
@@ -58,6 +58,7 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         app:srcCompat="@drawable/ic_add_white_24dp"
+        android:onClick="@{() -> vm.showAddListDialog()}"
         />
 
     <include layout="@layout/content_add_list"/>

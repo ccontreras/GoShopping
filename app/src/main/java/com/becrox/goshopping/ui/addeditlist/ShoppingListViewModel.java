@@ -2,6 +2,7 @@ package com.becrox.goshopping.ui.addeditlist;
 
 import android.databinding.ObservableField;
 import com.google.firebase.database.DatabaseReference;
+import com.jakewharton.rxrelay2.PublishRelay;
 import io.reactivex.Observable;
 import javax.inject.Inject;
 
@@ -16,19 +17,21 @@ public class ShoppingListViewModel {
   /**
    * Flag that indicates if the empty view should appear.
    */
-  public final ObservableField<Boolean> shouldShowEmptyView = new ObservableField<>(false);
+  public final ObservableField<Boolean> showEmptyView = new ObservableField<>(true);
 
   /**
    * A reference to the database.
    */
   private DatabaseReference mRef;
 
-  @Inject ShoppingListViewModel(DatabaseReference ref) {
-    mRef = ref;
-  }
+  /**
+   * A shoppingListCreateSubject where anyone can subscribe to in order to listen when
+   * the {@link AddListDialog} is requested to show.
+   */
+  public final PublishRelay<Object> showAddListDialogSubject = PublishRelay.create();
 
-  public boolean shouldShowEmptyView() {
-    return shouldShowEmptyView.get();
+  @Inject public ShoppingListViewModel(DatabaseReference ref) {
+    mRef = ref;
   }
 
   /**
@@ -36,14 +39,22 @@ public class ShoppingListViewModel {
    * the user that he has no shopping list.
    */
   public void showEmptyView() {
-    shouldShowEmptyView.set(true);
+    showEmptyView.set(true);
   }
 
   /**
    * Hides the empty view.
    */
   public void hideEmptyView() {
-    shouldShowEmptyView.set(false);
+    showEmptyView.set(false);
+  }
+
+  /**
+   * Notifies the {@link #showAddListDialogSubject} subscribers in order to
+   * show the {@link AddListDialog}.
+   */
+  public void showAddListDialog() {
+    Observable.just(true).subscribe(showAddListDialogSubject);
   }
 
   /**

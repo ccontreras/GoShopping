@@ -4,26 +4,25 @@ import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 import com.becrox.goshopping.R;
 import com.becrox.goshopping.databinding.AddListDialogBinding;
+import com.trello.rxlifecycle2.components.support.RxDialogFragment;
 import dagger.android.support.AndroidSupportInjection;
-import io.reactivex.disposables.Disposable;
 import javax.inject.Inject;
 
 /**
  * @author cconTreras
  */
 
-public class AddListDialog extends DialogFragment {
+public class AddListDialog extends RxDialogFragment {
 
   @Inject AddListViewModel mViewModel;
 
   private AddListDialogBinding mBinding;
-  private Disposable mDisposable;
 
   public AddListDialog() {
   }
@@ -37,6 +36,10 @@ public class AddListDialog extends DialogFragment {
     super.onAttach(context);
   }
 
+  @Override public void onCreate(@Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+  }
+
   @Nullable @Override
   public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
       @Nullable Bundle savedInstanceState) {
@@ -48,19 +51,13 @@ public class AddListDialog extends DialogFragment {
 
   @Override public void onResume() {
     super.onResume();
-    mDisposable = mViewModel.subject.subscribe(isSuccessful -> {
-      if (isSuccessful) {
+    mViewModel.shoppingListCreateSubject.compose(bindToLifecycle()).subscribe(result -> {
+      if (result.success) {
         dismiss();
+      } else {
+        Toast.makeText(getActivity(), result.message, Toast.LENGTH_SHORT).show();
       }
     });
-  }
-
-  @Override public void onPause() {
-    super.onPause();
-    if (mDisposable != null) {
-      mDisposable.dispose();
-      mDisposable = null;
-    }
   }
 
   @Override public void onDestroyView() {

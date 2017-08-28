@@ -3,7 +3,6 @@ package com.becrox.goshopping.ui.addeditlist;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
@@ -19,6 +18,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
+import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 import dagger.android.AndroidInjection;
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
@@ -30,7 +30,8 @@ import javax.inject.Inject;
  *
  * @author cconTreras
  */
-public class ShoppingListActivity extends AppCompatActivity implements HasSupportFragmentInjector {
+public class ShoppingListActivity extends RxAppCompatActivity
+    implements HasSupportFragmentInjector {
 
   private FirebaseRecyclerAdapter<ShoppingList, ShoppingListHolder> mAdapter;
 
@@ -44,6 +45,7 @@ public class ShoppingListActivity extends AppCompatActivity implements HasSuppor
 
     ActivityAddListBinding binding =
         DataBindingUtil.setContentView(this, R.layout.activity_add_list);
+    binding.setVm(mViewModel);
     setSupportActionBar(binding.toolbar);
 
     mAdapter = new FirebaseRecyclerAdapter<ShoppingList, ShoppingListHolder>(ShoppingList.class,
@@ -75,10 +77,6 @@ public class ShoppingListActivity extends AppCompatActivity implements HasSuppor
         // no action
       }
     });
-
-    // Add an OnClickListener in order to show the create dialog.
-    binding.fab.setOnClickListener(view -> AddListDialog.newInstance()
-        .show(getSupportFragmentManager(), "create_list_dialog"));
   }
 
   @Override protected void onDestroy() {
@@ -103,6 +101,13 @@ public class ShoppingListActivity extends AppCompatActivity implements HasSuppor
       default:
         return super.onOptionsItemSelected(item);
     }
+  }
+
+  @Override protected void onResume() {
+    super.onResume();
+    mViewModel.showAddListDialogSubject.compose(bindToLifecycle())
+        .subscribe(o -> AddListDialog.newInstance()
+            .show(getSupportFragmentManager(), "create_list_dialog"));
   }
 
   @Override public AndroidInjector<Fragment> supportFragmentInjector() {

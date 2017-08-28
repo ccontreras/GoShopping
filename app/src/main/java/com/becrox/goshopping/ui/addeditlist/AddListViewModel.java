@@ -1,11 +1,11 @@
 package com.becrox.goshopping.ui.addeditlist;
 
 import android.databinding.ObservableField;
+import android.support.annotation.Nullable;
 import com.becrox.goshopping.dto.ShoppingList;
 import com.google.firebase.database.DatabaseReference;
+import com.jakewharton.rxrelay2.PublishRelay;
 import io.reactivex.Observable;
-import io.reactivex.subjects.PublishSubject;
-import io.reactivex.subjects.Subject;
 import javax.inject.Inject;
 
 /**
@@ -27,10 +27,10 @@ public class AddListViewModel {
   private DatabaseReference mRef;
 
   /**
-   * This is a subject that anyone can subscribe to when a new
+   * This is a shoppingListCreateSubject that anyone can subscribe to when a new
    * list is created.
    */
-  public final Subject<Boolean> subject = PublishSubject.create();
+  public final PublishRelay<Result> shoppingListCreateSubject = PublishRelay.create();
 
   @Inject public AddListViewModel(DatabaseReference ref) {
     mRef = ref;
@@ -42,7 +42,27 @@ public class AddListViewModel {
       ShoppingList shoppingList = new ShoppingList.Builder().withTitle(title).build();
       mRef.push()
           .setValue(shoppingList)
-          .addOnCompleteListener(task -> Observable.just(task.isSuccessful()).subscribe(subject));
+          .addOnCompleteListener(task -> Observable.just(task.isSuccessful() ? Result.success()
+              : Result.error(task.getException().getMessage()))
+              .subscribe(shoppingListCreateSubject));
+    }
+  }
+
+  public static class Result {
+    public final boolean success;
+    @Nullable public final String message;
+
+    private Result(boolean success, @Nullable String message) {
+      this.success = success;
+      this.message = message;
+    }
+
+    public static Result success() {
+      return new Result(true, null);
+    }
+
+    public static Result error(String error) {
+      return new Result(false, error);
     }
   }
 }
